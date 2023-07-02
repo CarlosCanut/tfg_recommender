@@ -91,7 +91,7 @@ def standarize_df(df):
     
     return x_role_std, y_role
 
-def kmeans_clustering_elbow(df, total_k = 20):
+def kmeans_clustering_elbow(df, role="general", total_k = 20):
     distorsions = []
     K = range(1, total_k)
     for k in K:
@@ -103,7 +103,7 @@ def kmeans_clustering_elbow(df, total_k = 20):
     plt.plot(K, distorsions, 'bx-')
     plt.xlabel('k')
     plt.ylabel('Distortion')
-    plt.title('The Elbow Method showing the optimal k')
+    plt.title('The Elbow Method showing the optimal k for ' + role)
     plt.show()
     
 def apply_pca(df, variance_explained_specified):

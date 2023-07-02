@@ -81,9 +81,10 @@ def clustering_testing_soloq_games():
         ####################################################################################################
         # Clustering
         ####################################################################################################
-        
+
         ########### General stats ###########
         x_general, y_general = standarize_df(general_soloq)
+        kmeans_clustering_elbow(x_general, "general")
         # test based on each patch, and also try different dimensionality reduction combinations for different cluster numbers
         results_dict = get_best_clustering(
                                             x_general,
@@ -101,12 +102,13 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/general_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/general_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
 
         
         ########### Top stats ###########
         x_top, y_top = standarize_df(top_soloq)
+        kmeans_clustering_elbow(x_top, role="top")
         # test based on each patch, and also try different dimensionality reduction combinations for different cluster numbers
         results_dict = get_best_clustering(
                                             x_top,
@@ -124,7 +126,7 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/top_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/top_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
         
         ########### Jungle stats ###########
@@ -146,7 +148,7 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/jungle_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/jungle_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
 
         ########### Mid stats ###########
@@ -168,7 +170,7 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/mid_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/mid_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
 
         ########### Adc stats ###########
@@ -190,7 +192,7 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/bottom_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/bottom_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
         
         ########### Support stats ###########
@@ -212,7 +214,7 @@ def clustering_testing_soloq_games():
                                                 umap_params = [2, 3, 4, 5, 6, 7, 8, 9, 10], 
                                                 kmeans_params = [cluster_n], 
                                                 optics_params = [cluster_n])
-            results_dict.to_excel("games/soloq/clustering_tests/utility_clustering_" + patch + "_cluster_size_" + cluster_n + ".xlsx")
+            results_dict.to_excel("games/soloq/clustering_tests/utility_clustering_" + patch + "_cluster_size_" + str(cluster_n) + ".xlsx")
         
     
     ####################################################################################################
@@ -226,11 +228,11 @@ def clustering_testing_soloq_games():
 
 def clustering_soloq_games():
     soloq_games_euw = pd.read_csv("games/soloq/Europe_stats.csv")
-    # soloq_games_kr = pd.read_csv("games/soloq/Asia_stats.csv")
+    soloq_games_kr = pd.read_csv("games/soloq/Asia_stats.csv")
 
     # group all soloq games
-    # soloq_games = pd.concat([soloq_games_euw, soloq_games_kr])
-    soloq_games = soloq_games_euw
+    soloq_games = pd.concat([soloq_games_euw, soloq_games_kr])
+    # soloq_games = soloq_games_euw
     soloq = clean_data_clustering(soloq_games)
 
     general_cases = {
@@ -291,32 +293,43 @@ def clustering_soloq_games():
     ########### General stats ###########
     x_general, y_general = standarize_df(general_soloq)
     y_general, general_champions_list, general_principal_components = umap_kmeans(x_general, y_general, n_comps=4, k = 5 )
-    y_general.to_excel("games/soloq/general_clusters.xlsx")
+    y_general['role'] = 'general'
+    # y_general.to_excel("games/soloq/general_clusters.xlsx")
 
     ########### Top stats ###########
     x_top, y_top = standarize_df(top_soloq)
     y_top, top_champions_list, top_principal_components = umap_kmeans(x_top, y_top, n_comps=4, k = 5 )
-    y_top.to_excel("games/soloq/top_clusters.xlsx")
+    y_top['role'] = 'top'
+    # y_top.to_excel("games/soloq/top_clusters.xlsx")
 
     ########### Jungle stats ###########
     x_jungle, y_jungle = standarize_df(jungle_soloq)
     y_jungle, jungle_champions_list, jungle_principal_components = umap_kmeans(x_jungle, y_jungle, n_comps=4, k = 5 )
-    y_jungle.to_excel("games/soloq/jungle_clusters.xlsx")
+    y_jungle['role'] = 'jungle'
+    # y_jungle.to_excel("games/soloq/jungle_clusters.xlsx")
 
     ########### Mid stats ###########
     x_mid, y_mid = standarize_df(mid_soloq)
     y_mid, mid_champions_list, mid_principal_components = umap_kmeans(x_mid, y_mid, n_comps=4, k = 5 )
-    y_mid.to_excel("games/soloq/mid_clusters.xlsx")
+    y_mid['role'] = 'mid'
+    # y_mid.to_excel("games/soloq/mid_clusters.xlsx")
 
     ########### Bottom stats ###########
     x_bottom, y_bottom = standarize_df(bottom_soloq)
     y_bottom, bottom_champions_list, bottom_principal_components = umap_kmeans(x_bottom, y_bottom, n_comps=4, k = 5 )
-    y_bottom.to_excel("games/soloq/bottom_clusters.xlsx")
+    y_bottom['role'] = 'bottom'
+    # y_bottom.to_excel("games/soloq/bottom_clusters.xlsx")
 
     ########### Utility stats ###########
     x_utility, y_utility = standarize_df(utility_soloq)
     y_utility, utility_champions_list, utility_principal_components = umap_kmeans(x_utility, y_utility, n_comps=4, k = 5 )
-    y_utility.to_excel("games/soloq/utility_clusters.xlsx")
+    y_utility['role'] = 'utility'
+    # y_utility.to_excel("games/soloq/utility_clusters.xlsx")
+
+    clusters_by_role = pd.concat([y_general, y_top, y_jungle, y_mid, y_bottom, y_utility], ignore_index=True)
+
+    clusters_by_role.to_excel("games/soloq/clusters.xlsx")
+
 
     clean_soloq_games = soloq_games[["game_id", "teamId", "teamPosition", "win", "championName", "championId"]]
     print(clean_soloq_games)
@@ -592,7 +605,32 @@ def generate_competitive_clustered_dataset_by_order_pick():
     merged_df = merged_df.drop(['teamPosition', 'championName', 'championId', 'orderPickPhase', 'orderPick', 'teamId', 'win', 'cluster'], axis=1)
 
     merged_df = merged_df.drop_duplicates(subset=['game_id'])
+
+
+    merged_df = merged_df.dropna()
     
+    merged_df['cluster1'] = merged_df['cluster1'].fillna(-1)
+    merged_df['cluster2'] = merged_df['cluster2'].fillna(-1)
+    merged_df['cluster3'] = merged_df['cluster3'].fillna(-1)
+    merged_df['cluster4'] = merged_df['cluster4'].fillna(-1)
+    merged_df['cluster5'] = merged_df['cluster5'].fillna(-1)
+    merged_df['cluster6'] = merged_df['cluster6'].fillna(-1)
+    merged_df['cluster7'] = merged_df['cluster7'].fillna(-1)
+    merged_df['cluster8'] = merged_df['cluster8'].fillna(-1)
+    merged_df['cluster9'] = merged_df['cluster9'].fillna(-1)
+    merged_df['cluster10'] = merged_df['cluster10'].fillna(-1)
+
+    merged_df['role1'] = merged_df['role1'].fillna("None")
+    merged_df['role2'] = merged_df['role2'].fillna("None")
+    merged_df['role3'] = merged_df['role3'].fillna("None")
+    merged_df['role4'] = merged_df['role4'].fillna("None")
+    merged_df['role5'] = merged_df['role5'].fillna("None")
+    merged_df['role6'] = merged_df['role6'].fillna("None")
+    merged_df['role7'] = merged_df['role7'].fillna("None")
+    merged_df['role8'] = merged_df['role8'].fillna("None")
+    merged_df['role9'] = merged_df['role9'].fillna("None")
+    merged_df['role10'] = merged_df['role10'].fillna("None")
+
     merged_df.to_excel("games/competitive/total_games_clustered.xlsx")
 
 ####################################################################################################################################
@@ -612,8 +650,8 @@ def create_prediction_model():
     
 if __name__ == '__main__':
     extract_soloq_games()
-    # clustering_testing_soloq_games()
-    # clustering_soloq_games()
-    # extract_competitive_games()
-    # generate_competitive_clustered_dataset_by_order_pick()
-    # create_prediction_model()
+    clustering_testing_soloq_games()
+    clustering_soloq_games()
+    extract_competitive_games()
+    generate_competitive_clustered_dataset_by_order_pick()
+    create_prediction_model()
