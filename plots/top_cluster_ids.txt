@@ -1,0 +1,1 @@
+['1: damageDealtToObjectives', '2: damageDealtToTurrets', '3: goldEarned', '4: kills', '5: assists', '6: deaths', '7: magicDamageDealtToChampions', '8: physicalDamageDealtToChampions', '9: timeCCingOthers', '10: totalDamageDealtToChampions', '11: totalDamageTaken', '12: totalHealsOnTeammates', '13: creepScore', '14: visionScore', '15: lane_proximity', '16: jungle_proximity']

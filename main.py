@@ -287,7 +287,7 @@ def clustering_soloq_games():
     y_utility.to_excel("games/soloq/clusters/utility_clusters.xlsx")
 
     y_general = pd.read_excel("games/soloq/clusters/general_clusters.xlsx")
-    clusters_by_role = pd.concat([y_general, y_top, y_jungle, y_mid, y_bottom, y_utility], ignore_index=True)
+    clusters_by_role = pd.concat([y_top, y_jungle, y_mid, y_bottom, y_utility], ignore_index=True)
 
     clusters_by_role.to_excel("games/soloq/clusters/clusters.xlsx")
 
@@ -625,6 +625,6 @@ if __name__ == '__main__':
     # extract_soloq_games()
     # general_clustering()
     # clustering_testing_soloq_games()
-    # clustering_soloq_games()
+    clustering_soloq_games()
     # extract_competitive_games()
-    generate_competitive_clustered_dataset_by_order_pick()
+    # generate_competitive_clustered_dataset_by_order_pick()
