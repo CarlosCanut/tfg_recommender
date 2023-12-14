@@ -8,8 +8,6 @@ API_KEY=<**YOUR_API_KEY**>
 
 2. Create a virtual env with this packages:
 
-Package Version
-
 - certifi 2022.12.7
 - charset-normalizer 3.0.1
 - contourpy 1.0.7
