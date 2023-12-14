@@ -39,3 +39,5 @@ API_KEY=<**YOUR_API_KEY**>
 - six 1.16.0
 - urllib3 1.26.14
 - virtualenv 20.23.0
+
+3. Use the main.py script to run the desired functions.
