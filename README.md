@@ -1,7 +1,7 @@
 
 # tfg_recommender
 
-1. Create a .env file that contains the riot api key
+1. Create a .env file that contains the riot api key following the format below. You can get the api key from (https://developer.riotgames.com/):
 
 >e.j.
 API_KEY=<**YOUR_API_KEY**>
